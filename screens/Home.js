@@ -9,14 +9,23 @@ import {
     TouchableOpacity,
     Image,
     ImageBackground,
+    LogBox,
 } from "react-native";
-import { PriceAlert } from "../components";
+import { PriceAlert, TransactionHistory } from "../components";
 import { dummyData, COLORS, SIZES, FONTS, icons, images } from "../constants";
 
 const Home = ({ navigation }) => {
     const [trending, setTrending] = React.useState(
         dummyData.trendingCurrencies
     );
+
+    const [transactionHistorys, setTransactionHistory] = React.useState(
+        dummyData.transactionHistory
+    );
+
+    React.useEffect(() => {
+        LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+    }, []);
 
     function renderHeader() {
         const renderItem = ({ item, index }) => (
@@ -30,6 +39,9 @@ const Home = ({ navigation }) => {
                     borderRadius: 10,
                     backgroundColor: COLORS.white,
                 }}
+                onPress={() =>
+                    navigation.navigate("CryptoDetail", { currency: item })
+                }
             >
                 {/* Currency */}
                 <View style={{ flexDirection: "row" }}>
@@ -147,8 +159,8 @@ const Home = ({ navigation }) => {
                     {/* Chart Trends */}
                     <View
                         style={{
-                            position: "absolute",
-                            bottom: "-30%",
+                            // position: "absolute",
+                            // bottom: "-30%",
                         }}
                     >
                         <Text
@@ -196,19 +208,46 @@ const Home = ({ navigation }) => {
                 </Text>
                 <Text style={{ color: COLORS.white, ...FONTS.body4 }}>
                     It's very difficult to time an investment, especially when
-                    the market is volatile. Learn how to use dollar cost averaging to your advantage.
+                    the market is volatile. Learn how to use dollar cost
+                    averaging to your advantage.
                 </Text>
+
+                <TouchableOpacity
+                    style={{
+                        marginTop: SIZES.base,
+                    }}
+                >
+                    <Text
+                        style={{
+                            textDecorationLine: "underline",
+                            color: COLORS.green,
+                            ...FONTS.h3,
+                        }}
+                    >
+                        Learn More
+                    </Text>
+                </TouchableOpacity>
             </View>
+        );
+    }
+
+    function renderTransactionHistory() {
+        return (
+            <TransactionHistory
+                customContainerStyle={{ ...styles.shadow }}
+                history={transactionHistorys}
+            />
         );
     }
 
     return (
         <ScrollView>
-            <SafeAreaView style={{ flex: 1, paddingBottom: 130 }}>
+            <View style={{ flex: 1, paddingBottom: 130 }}>
                 {renderHeader()}
                 {renderAlert()}
                 {renderNotice()}
-            </SafeAreaView>
+                {renderTransactionHistory()}
+            </View>
         </ScrollView>
     );
 };

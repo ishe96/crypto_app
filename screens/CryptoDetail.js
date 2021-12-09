@@ -5,18 +5,68 @@ import {
     View,
     Text,
     TouchableOpacity,
+    Image,
+    ScrollView, Animated
 } from "react-native";
+import { HeaderBar, CurrencyLabel } from "../components";
 
-const CryptoDetail = ({ navigation }) => {
-    return (
-        // <SafeAreaView>
-            <View style={styles.container}>
-                <Text>CryptoDetail</Text>
-                <TouchableOpacity>
-                    <Text>Navigate to Transaction</Text>
-                </TouchableOpacity>
+import { COLORS, SIZES, FONTS, icons } from "../constants";
+
+const CryptoDetail = ({ route, navigation }) => {
+
+    const [selectedCurrency, setSelectedCurrency] = React.useState(null)
+
+    React.useEffect(()=>{
+        const {currency} = route.params;
+        setSelectedCurrency(currency)
+    },[])
+
+    function renderChart() {
+        return (
+            <View style={{ 
+                marginTop : SIZES.padding,
+                marginHorizontal: SIZES.radius,
+                alignItems: "center",
+                borderRadius: SIZES.radius,
+                backgroundColor: COLORS.white,
+                ...styles.shadow
+            }}>
+                {/* Header */}
+                <View style={{
+                    flexDirection: "row",
+                    marginTop: SIZES.padding,
+                    paddingHorizontal: SIZES.padding,
+                }}>
+                    <View style={{ flex:1}}>
+                        <CurrencyLabel icon={selectedCurrency?.image}
+                        currency ={selectedCurrency?.currency}
+                        code = {selectedCurrency?.code}
+                        />
+                    </View>
+
+                    <View>
+                        <Text style={{ ...FONTS.h3 }}>${selectedCurrency?.amount}</Text>
+                        <Text style={{ color: selectedCurrency?.type === 'I' ? COLORS.green : COLORS.red, ...FONTS.body4 }}>{selectedCurrency?.changes}</Text>
+                    </View>
+                </View>
+
+                {/* Chart */}
+                {/* Options */}
+                {/* Dots */}
             </View>
-        // {/* </SafeAreaView> */}
+        )
+    }
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightGray1}}>
+            <HeaderBar right={true}/>
+
+            <ScrollView>
+                <View style={{ flex:1, paddingBottom: SIZES.padding}}>
+                    {renderChart()}
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import {
@@ -86,6 +87,7 @@ const Tabs = () => {
                             </Text>
                         </View>
                     ),
+                    headerShown: false
                 }}
             />
 
@@ -123,6 +125,7 @@ const Tabs = () => {
                             </Text>
                         </View>
                     ),
+                    headerShown: false
                 }}
             />
 
@@ -149,6 +152,7 @@ const Tabs = () => {
                         </View>
                     ),
                     tabBarButton: (props) => <TabBarCustomButton {...props} />,
+                    headerShown: false
                 }}
             />
 
@@ -186,6 +190,7 @@ const Tabs = () => {
                             </Text>
                         </View>
                     ),
+                    headerShown: false
                 }}
             />
 
@@ -223,6 +228,7 @@ const Tabs = () => {
                             </Text>
                         </View>
                     ),
+                    headerShown: false
                 }}
             />
         </Tab.Navigator>
